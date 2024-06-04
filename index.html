@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      function loadContent() {
+          const params = new URLSearchParams(window.location.search);
+          const query = params.get('q');
+          let url;
+
+          if (query && query.toLowerCase().includes('москва')) {
+              url = 'moscow.html';
+          } else if (query && query.toLowerCase().includes('санкт-петербург')) {
+              url = 'saint-petersburg.html';
+          } else {
+              document.getElementById('content').innerHTML = 'Город не найден';
+              return;
+          }
+
+          fetch(url)
+              .then(response => response.text())
+              .then(data => {
+                  document.getElementById('content').innerHTML = data;
+              })
+              .catch(error => {
+                  document.getElementById('content').innerHTML = 'Ошибка загрузки контента';
+                  console.error('Error:', error);
+              });
+      }
+
+      document.addEventListener('DOMContentLoaded', loadContent);
+  </script>
+  </head>
+  <body>
+    <div id="content"></div>
+  </body>
+</html>
